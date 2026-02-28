@@ -64,33 +64,33 @@ export default async function AnalyticsPage() {
   return (
     <div className="flex-1 space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Analytics</h1>
-        <p className="text-muted-foreground mt-2">
+        <h1 className="text-3xl font-bold tracking-tight text-slate-900">Analytics</h1>
+        <p className="text-slate-600 mt-2 text-sm">
           Track the performance of your links.
         </p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="col-span-1">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Lifetime Clicks</CardTitle>
-            <MousePointerClick className="h-4 w-4 text-muted-foreground" />
+        <Card className="col-span-1 bg-white border border-slate-200/60 shadow-[0_2px_8px_rgb(0,0,0,0.04)] rounded-2xl">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-6 md:p-8">
+            <CardTitle className="text-xs font-bold uppercase tracking-widest text-slate-500">Total Lifetime Clicks</CardTitle>
+            <MousePointerClick className="h-4 w-4 text-slate-400" />
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{totalClicks}</div>
-            <p className="text-xs text-muted-foreground mt-1">Across all your links</p>
+          <CardContent className="px-6 md:px-8 pb-6 md:pb-8">
+            <div className="text-2xl font-bold text-slate-900">{totalClicks}</div>
+            <p className="text-xs text-slate-500 mt-1">Across all your links</p>
           </CardContent>
         </Card>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Link Performance</CardTitle>
-          <CardDescription>
+      <Card className="bg-white border border-slate-200/60 shadow-[0_2px_8px_rgb(0,0,0,0.04)] rounded-2xl">
+        <CardHeader className="p-6 md:p-8">
+          <CardTitle className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">Link Performance</CardTitle>
+          <CardDescription className="text-sm text-slate-600">
             See how your individual links are performing.
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="px-6 md:px-8 pb-6 md:pb-8">
           {linksWithClicks.length > 0 ? (
             <div className="divide-y relative -mx-6 px-6 sm:mx-0 sm:px-0">
               {linksWithClicks.map((link) => (

@@ -95,11 +95,11 @@ export function LinksManager({ }: { initialLinks?: Link[] }) {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <Button
         onClick={handleAddLink}
         disabled={isAdding}
-        className="w-full rounded-xl py-6 hover:bg-primary/90 cursor-pointer"
+        className="w-full bg-black text-white hover:bg-slate-800 rounded-xl py-6 font-medium shadow-sm transition-all cursor-pointer"
       >
         <Plus className="mr-2 h-5 w-5" />
         Add Link
@@ -172,64 +172,54 @@ function SortableLinkCard({
   };
 
   return (
-    <Card
+    <div
       ref={setNodeRef}
       style={style}
-      className={`border border-gray-200 shadow-sm rounded-2xl bg-white overflow-hidden ${
-        isDragging ? "ring-2 ring-primary opacity-50 shadow-lg" : ""
+      className={`bg-white border border-slate-200 rounded-2xl p-4 flex items-center gap-4 hover:shadow-md transition-shadow group ${
+        isDragging ? "ring-2 ring-black opacity-50 shadow-lg" : ""
       }`}
     >
-      <CardContent className="p-0 flex">
-        {/* Drag Handle */}
-        <div
-          {...attributes}
-          {...listeners}
-          className="flex items-center justify-center px-3 border-r bg-gray-50/50 hover:bg-gray-100 cursor-grab active:cursor-grabbing"
-        >
-          <GripVertical className="h-5 w-5 text-gray-400" />
+      {/* Drag Handle */}
+      <div
+        {...attributes}
+        {...listeners}
+        className="flex items-center justify-center cursor-grab active:cursor-grabbing text-slate-300 group-hover:text-slate-500 transition-colors"
+      >
+        <GripVertical className="h-5 w-5" />
+      </div>
+
+      {/* Content */}
+      <div className="flex-1 flex items-center gap-4">
+        <div className="flex-1 flex flex-col gap-1">
+          <Input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            onBlur={handleBlur}
+            placeholder="Title"
+            className="h-8 text-sm font-semibold bg-transparent border-transparent hover:border-slate-200 focus-visible:border-black focus-visible:ring-black rounded-lg shadow-none px-2 text-slate-900 transition-all"
+          />
+          <Input
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            onBlur={handleBlur}
+            placeholder="URL"
+            className="h-8 text-sm bg-transparent border-transparent hover:border-slate-200 focus-visible:border-black focus-visible:ring-black rounded-lg shadow-none px-2 text-slate-600 transition-all"
+          />
         </div>
 
-        {/* Content */}
-        <div className="flex-1 p-5 space-y-4">
-          <div className="flex gap-4">
-            <div className="flex-1 space-y-3">
-              <Input
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                onBlur={handleBlur}
-                placeholder="Title"
-                className="text-sm font-semibold rounded-lg border-transparent hover:border-gray-200 focus-visible:border-gray-300 focus-visible:ring-0 shadow-none px-2"
-              />
-              <Input
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
-                onBlur={handleBlur}
-                placeholder="URL"
-                className="text-sm rounded-lg border-transparent hover:border-gray-200 focus-visible:border-gray-300 focus-visible:ring-0 shadow-none px-2 text-muted-foreground"
-              />
-            </div>
-          </div>
-
-          <div className="flex items-center justify-between pt-2 border-t">
-            <div className="flex items-center gap-4 text-sm text-gray-500">
-             {/* optional icons/badges could go here */}
-            </div>
-            
-            <div className="flex items-center gap-4">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={handleDelete}
-                disabled={isDeleting}
-                className="text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg cursor-pointer transition-colors h-9 w-9"
-              >
-                <Trash2 className="h-4 w-4" />
-              </Button>
-              <Switch checked={isActive} onCheckedChange={handleSwitchChange} />
-            </div>
-          </div>
+        <div className="flex items-center gap-3 shrink-0">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={handleDelete}
+            disabled={isDeleting}
+            className="text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl cursor-pointer transition-colors h-9 w-9"
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+          <Switch checked={isActive} onCheckedChange={handleSwitchChange} />
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

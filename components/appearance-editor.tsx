@@ -62,11 +62,11 @@ export function AppearanceEditor() {
   return (
     <div className="space-y-8 pb-10">
       {/* Profile Section */}
-      <Card className="border border-gray-200 shadow-sm rounded-2xl">
-        <CardHeader>
-          <CardTitle className="text-lg">Profile Details</CardTitle>
+      <Card className="bg-white border border-slate-200/60 shadow-[0_2px_8px_rgb(0,0,0,0.04)] rounded-2xl">
+        <CardHeader className="p-6 md:p-8 pb-0">
+          <CardTitle className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">Profile Details</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="p-6 md:p-8 pt-0 space-y-6">
           <div className="flex items-center gap-6">
             <div className="relative h-24 w-24 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center border shrink-0">
               {profile.avatar_url ? (
@@ -83,7 +83,7 @@ export function AppearanceEditor() {
               )}
             </div>
             <div className="flex flex-col gap-2">
-              <Button variant="outline" className="relative cursor-pointer rounded-xl">
+              <Button variant="outline" className="relative cursor-pointer bg-white border border-slate-200 hover:bg-slate-50 rounded-xl text-slate-900">
                 <UploadCloud className="h-4 w-4 mr-2" />
                 Upload Image
                 <input
@@ -94,27 +94,27 @@ export function AppearanceEditor() {
                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                 />
               </Button>
-              <p className="text-xs text-muted-foreground">Recommended size: 256x256px</p>
+              <p className="text-xs text-slate-500">Recommended size: 256x256px</p>
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label>Display Name</Label>
+            <Label className="text-slate-900 font-medium text-sm">Display Name</Label>
             <Input 
               defaultValue={profile.display_name || ""} 
               onBlur={(e) => handleBlur('display_name', e.target.value)}
               placeholder="Your Name"
-              className="rounded-xl bg-gray-50 border-transparent hover:border-gray-200 focus-visible:bg-white focus-visible:border-primary shadow-none"
+              className="rounded-xl border-slate-200 shadow-sm focus-visible:border-black focus-visible:ring-black transition-all bg-white text-sm text-slate-600"
             />
           </div>
 
           <div className="space-y-2">
-            <Label>Bio</Label>
+            <Label className="text-slate-900 font-medium text-sm">Bio</Label>
             <Textarea 
               defaultValue={profile.bio || ""} 
               onBlur={(e) => handleBlur('bio', e.target.value)}
               placeholder="Tell us about yourself"
-              className="resize-none rounded-xl bg-gray-50 border-transparent hover:border-gray-200 focus-visible:bg-white focus-visible:border-primary shadow-none"
+              className="resize-none rounded-xl border-slate-200 shadow-sm focus-visible:border-black focus-visible:ring-black transition-all bg-white text-sm text-slate-600"
               maxLength={150}
             />
           </div>
@@ -122,17 +122,17 @@ export function AppearanceEditor() {
       </Card>
 
       {/* Theming Section */}
-      <Card className="border border-gray-200 shadow-sm rounded-2xl">
-        <CardHeader>
-          <CardTitle className="text-lg">Theming</CardTitle>
+      <Card className="bg-white border border-slate-200/60 shadow-[0_2px_8px_rgb(0,0,0,0.04)] rounded-2xl md:-mt-2">
+        <CardHeader className="p-6 md:p-8 pb-0">
+          <CardTitle className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">Theming</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-8">
+        <CardContent className="p-6 md:p-8 pt-0 space-y-8">
           
           <div className="grid grid-cols-2 gap-6">
             <div className="space-y-2">
-              <Label>Background Color</Label>
+              <Label className="text-slate-900 font-medium text-sm">Background Color</Label>
               <div className="flex gap-3">
-                <div className="h-10 w-10 rounded-xl border overflow-hidden shrink-0">
+                <div className="h-10 w-10 rounded-xl border border-slate-200 shadow-sm overflow-hidden shrink-0">
                   <input 
                     type="color" 
                     defaultValue={profile.bg_color || "#f3f4f6"}
@@ -143,15 +143,15 @@ export function AppearanceEditor() {
                 <Input 
                   defaultValue={profile.bg_color || "#f3f4f6"}
                   onBlur={(e) => handleBlur('bg_color', e.target.value)}
-                  className="rounded-xl flex-1 bg-gray-50 border-transparent shadow-none font-mono text-sm"
+                  className="rounded-xl border-slate-200 shadow-sm focus-visible:border-black focus-visible:ring-black transition-all bg-white font-mono text-sm text-slate-600"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label>Theme Color (Buttons/Text)</Label>
+              <Label className="text-slate-900 font-medium text-sm">Theme Color (Buttons/Text)</Label>
               <div className="flex gap-3">
-                <div className="h-10 w-10 rounded-xl border overflow-hidden shrink-0">
+                <div className="h-10 w-10 rounded-xl border border-slate-200 shadow-sm overflow-hidden shrink-0">
                   <input 
                     type="color" 
                     defaultValue={profile.theme_color || "#09090b"}
@@ -162,14 +162,14 @@ export function AppearanceEditor() {
                 <Input 
                   defaultValue={profile.theme_color || "#09090b"}
                   onBlur={(e) => handleBlur('theme_color', e.target.value)}
-                  className="rounded-xl flex-1 bg-gray-50 border-transparent shadow-none font-mono text-sm"
+                  className="rounded-xl border-slate-200 shadow-sm focus-visible:border-black focus-visible:ring-black transition-all bg-white font-mono text-sm text-slate-600"
                 />
               </div>
             </div>
           </div>
 
           <div className="space-y-3">
-            <Label>Button Style</Label>
+            <Label className="text-slate-900 font-medium text-sm">Button Style</Label>
             <RadioGroup 
               defaultValue={profile.button_style || 'solid'} 
               onValueChange={(val) => handleBlur('button_style', val)}

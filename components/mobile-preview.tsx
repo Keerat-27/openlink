@@ -40,9 +40,9 @@ export function MobilePreview() {
   }
 
   return (
-    <div className="w-[320px] h-[650px] border-[10px] border-zinc-900 rounded-[3rem] overflow-hidden shadow-2xl relative shrink-0">
+    <div className="w-[320px] h-[650px] border-[8px] border-slate-900 rounded-[3rem] overflow-hidden shadow-2xl relative shrink-0">
       {/* notch mockup */}
-      <div className="absolute top-0 inset-x-0 h-6 bg-zinc-900 rounded-b-xl w-32 mx-auto z-10" />
+      <div className="absolute top-0 inset-x-0 h-6 bg-slate-900 rounded-b-xl w-32 mx-auto z-10" />
 
       {/* Actual user page preview */}
       <div 

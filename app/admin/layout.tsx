@@ -42,9 +42,9 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 
   return (
     <AdminProvider initialProfile={profile} initialLinks={links || []}>
-      <div className="flex h-screen flex-col md:flex-row bg-gray-50">
+      <div className="flex h-screen flex-col md:flex-row bg-[#FAFAFA]">
         {/* Sidebar (Desktop) */}
-        <aside className="hidden w-64 flex-col border-r bg-white md:flex pl-4 pr-4 pt-6 pb-6 shrink-0">
+        <aside className="hidden w-64 flex-col border-r border-slate-200/60 bg-transparent md:bg-white md:flex pl-4 pr-4 pt-6 shrink-0">
           <div className="flex items-center gap-2 px-2 mb-8">
             <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary">
               <Link2 className="h-4 w-4 text-primary-foreground" />
@@ -59,7 +59,7 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 text-gray-500`}
+                  className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors hover:bg-slate-100 hover:text-slate-900 text-slate-600`}
                 >
                   <Icon className="h-5 w-5" />
                   {link.name}
@@ -68,16 +68,26 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
             })}
           </nav>
 
-          <div className="mt-auto px-2 border-t pt-4">
-            <div className="mb-4 text-sm font-medium text-gray-900 px-1">
-              @{profile?.username}
+          <div className="mt-auto px-3 py-4">
+            <div className="flex items-center gap-3 rounded-xl p-2 hover:bg-slate-100 transition-colors cursor-pointer group">
+              <div className="h-8 w-8 rounded-full bg-slate-200 overflow-hidden flex items-center justify-center shrink-0">
+                 {profile?.avatar_url ? (
+                   <img src={profile.avatar_url} alt="" className="h-full w-full object-cover" />
+                 ) : (
+                   <span className="text-xs font-bold text-slate-500">{profile?.display_name?.[0] || profile?.username?.[0]?.toUpperCase()}</span>
+                 )}
+              </div>
+              <div className="flex-1 overflow-hidden">
+                <p className="text-sm font-medium text-slate-900 truncate">{profile?.display_name || profile?.username}</p>
+                <p className="text-xs text-slate-500 truncate">@{profile?.username}</p>
+              </div>
             </div>
-            <form>
+            <form className="mt-2">
               <button
                 formAction={signOut}
-                className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-gray-500 transition-colors hover:bg-red-50 hover:text-red-700 cursor-pointer"
+                className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 cursor-pointer"
               >
-                <LogOut className="h-5 w-5" />
+                <LogOut className="h-4 w-4" />
                 Sign Out
               </button>
             </form>
@@ -85,14 +95,14 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
         </aside>
 
         {/* Main Content Area */}
-        <main className="flex-1 overflow-y-auto w-full md:pb-0 pb-24 border-r border-gray-200">
+        <main className="flex-1 overflow-y-auto w-full md:pb-0 pb-24 border-r border-slate-200/60">
           <div className="mx-auto max-w-3xl w-full p-4 md:p-8">
              {children}
           </div>
         </main>
 
         {/* Mobile Preview Area (Desktop) */}
-        <div className="hidden lg:flex w-[450px] flex-col items-center justify-center bg-gray-50 p-8 shrink-0">
+        <div className="hidden lg:flex w-[450px] flex-col items-center justify-center bg-[#FAFAFA] shrink-0 sticky top-0 h-screen border-l border-slate-200/60 p-8">
           <MobilePreview />
         </div>
 
