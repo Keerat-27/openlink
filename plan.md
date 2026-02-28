@@ -109,9 +109,9 @@ _(Give this to the AI when setting up the database so it understands the data st
 
 ### Phase 7: Polish & Launch
 
-- [ ] **Step 7.1:** Add SEO metadata to the dynamic `[username]` route.
-- [ ] **Step 7.2:** Audit for mobile responsiveness (Tailwind responsive classes).
-- [ ] **Step 7.3:** Deploy to Vercel and test production database connections.
+- [x] **Step 7.1:** Add SEO metadata to the dynamic `[username]` route.
+- [x] **Step 7.2:** Audit for mobile responsiveness (Tailwind responsive classes).
+- [x] **Step 7.3:** Deploy to Vercel and test production database connections.
 
   ## 🎨 Frontend & UI Guidelines (System Rules)
 

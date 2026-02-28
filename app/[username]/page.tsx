@@ -32,7 +32,7 @@ export async function generateMetadata({
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("display_name, bio")
+    .select("display_name, bio, avatar_url")
     .eq("username", username)
     .single();
 
@@ -42,11 +42,35 @@ export async function generateMetadata({
     };
   }
 
+  const title = `${profile.display_name || username} | OpenLink`;
+  const description =
+    profile.bio ||
+    `Check out ${profile.display_name || username}'s links on OpenLink.`;
+  const ogImage = profile.avatar_url || "https://example.com/default-og.png";
+
   return {
-    title: `${profile.display_name || username} | OpenLink`,
-    description:
-      profile.bio ||
-      `Check out ${profile.display_name || username}'s links on OpenLink.`,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "profile",
+      url: `/${username}`,
+      images: [
+        {
+          url: ogImage,
+          width: 800,
+          height: 800,
+          alt: `${profile.display_name || username}'s avatar`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImage],
+    },
   };
 }
 
