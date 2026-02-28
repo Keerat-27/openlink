@@ -102,9 +102,9 @@ _(Give this to the AI when setting up the database so it understands the data st
 
 **Goal:** Track link clicks.
 
-- [ ] **Step 6.1:** Modify the public page. Instead of `<a>` tags linking directly to the destination, route clicks through an API endpoint (e.g., `/api/click?linkId=123`).
-- [ ] **Step 6.2:** In the API route, log a new row in the `clicks` table with the `link_id` and basic user agent info, then redirect the user to the actual URL.
-- [ ] **Step 6.3:** Build the `/admin/analytics` page. Query the `clicks` table to show Total Clicks, and click counts per individual link.
+- [x] **Step 6.1:** Modify the public page. Instead of `<a>` tags linking directly to the destination, route clicks through an API endpoint (e.g., `/api/click?linkId=123`).
+- [x] **Step 6.2:** In the API route, log a new row in the `clicks` table with the `link_id` and basic user agent info, then redirect the user to the actual URL.
+- [x] **Step 6.3:** Build the `/admin/analytics` page. Query the `clicks` table to show Total Clicks, and click counts per individual link.
 - **Definition of Done:** Clicking a link on the public page increments a counter that I can see in the analytics dashboard.
 
 ### Phase 7: Polish & Launch

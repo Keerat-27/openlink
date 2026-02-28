@@ -8,20 +8,24 @@ import { Metadata } from "next";
 function getContrastYIQ(hexcolor: string) {
   // Remove hash if valid
   hexcolor = hexcolor.replace("#", "");
-  
+
   // Parse hex
   const r = parseInt(hexcolor.substr(0, 2), 16);
   const g = parseInt(hexcolor.substr(2, 2), 16);
   const b = parseInt(hexcolor.substr(4, 2), 16);
-  
+
   // Calculate relative luminance
   const yiq = (r * 299 + g * 587 + b * 114) / 1000;
-  
+
   // Return black or white depending on luminance
-  return yiq >= 128 ? '#000000' : '#ffffff';
+  return yiq >= 128 ? "#000000" : "#ffffff";
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ username: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ username: string }>;
+}): Promise<Metadata> {
   const resolvedParams = await params;
   const username = resolvedParams.username;
   const supabase = await createClient();
@@ -40,11 +44,17 @@ export async function generateMetadata({ params }: { params: Promise<{ username:
 
   return {
     title: `${profile.display_name || username} | OpenLink`,
-    description: profile.bio || `Check out ${profile.display_name || username}'s links on OpenLink.`,
+    description:
+      profile.bio ||
+      `Check out ${profile.display_name || username}'s links on OpenLink.`,
   };
 }
 
-export default async function PublicProfilePage({ params }: { params: Promise<{ username: string }> }) {
+export default async function PublicProfilePage({
+  params,
+}: {
+  params: Promise<{ username: string }>;
+}) {
   const resolvedParams = await params;
   const username = resolvedParams.username;
   const supabase = await createClient();
@@ -142,13 +152,15 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
             activeLinks.map((link) => (
               <a
                 key={link.id}
-                href={link.url || "#"}
+                href={`/api/click?linkId=${link.id}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex w-full items-center justify-center px-6 py-4 text-base font-semibold transition-transform hover:scale-[1.02] active:scale-[0.98] min-h-[60px] shadow-sm break-all"
                 style={getButtonStyle()}
               >
-                <span className="text-center">{link.title || "Untitled Link"}</span>
+                <span className="text-center">
+                  {link.title || "Untitled Link"}
+                </span>
               </a>
             ))
           ) : (
