@@ -67,28 +67,30 @@ export async function claimUsername(formData: FormData) {
   }
 
   // Update the profile with the chosen username
-  const { error } = await supabase
+  const { data: updatedProfile, error: updateError } = await supabase
     .from("profiles")
     .update({
       username,
       display_name: user.user_metadata?.full_name || user.email?.split("@")[0] || username,
     })
-    .eq("id", user.id);
+    .eq("id", user.id)
+    .select()
+    .maybeSingle();
 
-  if (error) {
-    // If the profile doesn't exist yet (trigger may not have fired), upsert it
-    if (error.code === "PGRST116" || error.message.includes("0 rows")) {
-      const { error: upsertError } = await supabase.from("profiles").upsert({
-        id: user.id,
-        username,
-        display_name: user.user_metadata?.full_name || user.email?.split("@")[0] || username,
-      });
+  if (updateError) {
+    redirect(`/onboarding?error=${encodeURIComponent(updateError.message)}`);
+  }
 
-      if (upsertError) {
-        redirect(`/onboarding?error=${encodeURIComponent(upsertError.message)}`);
-      }
-    } else {
-      redirect(`/onboarding?error=${encodeURIComponent(error.message)}`);
+  if (!updatedProfile) {
+    // If the profile doesn't exist yet (trigger may not have fired), insert it
+    const { error: insertError } = await supabase.from("profiles").insert({
+      id: user.id,
+      username,
+      display_name: user.user_metadata?.full_name || user.email?.split("@")[0] || username,
+    });
+
+    if (insertError) {
+      redirect(`/onboarding?error=${encodeURIComponent(insertError.message)}`);
     }
   }
 

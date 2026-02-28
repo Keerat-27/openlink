@@ -1,17 +1,12 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { signOut } from "@/app/login/actions";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { LogOut, Shield, Link2, ExternalLink } from "lucide-react";
+import { LinksManager } from "@/components/links-manager";
 
-export default async function AdminPage() {
+export const metadata = {
+  title: "Manage Links | OpenLink",
+};
+
+export default async function AdminLinksPage() {
   const supabase = await createClient();
 
   const {
@@ -24,85 +19,30 @@ export default async function AdminPage() {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("username, display_name")
+    .select("id")
     .eq("id", user.id)
     .single();
 
+  if (!profile) {
+    redirect("/onboarding");
+  }
+
+  const { data: links } = await supabase
+    .from("links")
+    .select("*")
+    .eq("profile_id", profile.id)
+    .order("order", { ascending: true });
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4 py-12">
-      <div className="w-full max-w-lg space-y-8">
-        {/* Header */}
-        <div className="flex flex-col items-center space-y-3">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary shadow-md">
-            <Link2 className="h-7 w-7 text-primary-foreground" />
-          </div>
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">
-            Dashboard
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            Welcome back, {profile?.display_name || profile?.username || "user"}
-          </p>
-        </div>
-
-        {/* Auth Status Card */}
-        <Card className="border border-gray-200 shadow-sm rounded-2xl">
-          <CardHeader className="pb-4">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-green-100">
-                <Shield className="h-5 w-5 text-green-700" />
-              </div>
-              <div>
-                <CardTitle className="text-lg font-bold tracking-tight">
-                  Authenticated
-                </CardTitle>
-                <CardDescription className="text-muted-foreground">
-                  You are signed in successfully
-                </CardDescription>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="rounded-xl bg-slate-50 p-4 space-y-2">
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Username</span>
-                <span className="font-semibold text-primary">
-                  @{profile?.username}
-                </span>
-              </div>
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Email</span>
-                <span className="font-medium text-foreground">
-                  {user.email}
-                </span>
-              </div>
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Public Page</span>
-                <a
-                  href={`/${profile?.username}`}
-                  className="flex items-center gap-1 font-medium text-primary hover:underline"
-                >
-                  /{profile?.username}
-                  <ExternalLink className="h-3 w-3" />
-                </a>
-              </div>
-            </div>
-            <form>
-              <Button
-                formAction={signOut}
-                variant="outline"
-                className="w-full gap-2 rounded-xl py-5 text-sm font-medium transition-all hover:bg-red-50 hover:text-red-700 hover:border-red-200 cursor-pointer"
-              >
-                <LogOut className="h-4 w-4" />
-                Sign Out
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
-
-        <p className="text-center text-xs text-muted-foreground">
-          🚧 Full dashboard coming in Phase 3
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight text-gray-900">Links</h1>
+        <p className="text-muted-foreground mt-1 text-sm">
+          Add, edit, and reorder links on your public profile.
         </p>
       </div>
+
+      <LinksManager initialLinks={links || []} />
     </div>
   );
 }
