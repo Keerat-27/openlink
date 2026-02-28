@@ -28,11 +28,11 @@ npm install
 
 Create a `.env.local` in the project root with:
 
-| Variable | Description |
-|----------|-------------|
-| `NEXT_PUBLIC_SUPABASE_URL` | Your Supabase project URL |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Your Supabase anonymous (public) key |
-| `NEXT_PUBLIC_SITE_URL` | App URL (e.g. `http://localhost:3000` for dev) |
+| Variable                        | Description                                    |
+| ------------------------------- | ---------------------------------------------- |
+| `NEXT_PUBLIC_SUPABASE_URL`      | Your Supabase project URL                      |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Your Supabase anonymous (public) key           |
+| `NEXT_PUBLIC_SITE_URL`          | App URL (e.g. `http://localhost:3000` for dev) |
 
 Get the Supabase values from **Project Settings → API** in the Supabase dashboard.
 
@@ -51,20 +51,20 @@ Open [http://localhost:3000](http://localhost:3000). You’ll see the landing pa
 
 ## Scripts
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start the Next.js dev server |
-| `npm run build` | Build for production |
-| `npm run start` | Run the production build |
-| `npm run lint` | Run ESLint |
+| Command         | Description                  |
+| --------------- | ---------------------------- |
+| `npm run dev`   | Start the Next.js dev server |
+| `npm run build` | Build for production         |
+| `npm run start` | Run the production build     |
+| `npm run lint`  | Run ESLint                   |
 
 ## Project structure
 
-| Path | Purpose |
-|------|---------|
-| `app/` | Next.js App Router: home, login, `[username]` (public profile), `admin/` (dashboard, appearance) |
-| `components/` | UI: `links-manager`, `appearance-editor`, `ui/` (shadcn) |
-| `lib/supabase/` | Supabase client (server, client, middleware) and SQL for storage |
+| Path            | Purpose                                                                                          |
+| --------------- | ------------------------------------------------------------------------------------------------ |
+| `app/`          | Next.js App Router: home, login, `[username]` (public profile), `admin/` (dashboard, appearance) |
+| `components/`   | UI: `links-manager`, `appearance-editor`, `ui/` (shadcn)                                         |
+| `lib/supabase/` | Supabase client (server, client, middleware) and SQL for storage                                 |
 
 ## Tech stack
 
