@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   DndContext,
   closestCenter,
@@ -31,18 +31,11 @@ import {
   reorderLinks,
 } from "@/app/admin/actions";
 
-export interface Link {
-  id: string;
-  profile_id: string;
-  title: string | null;
-  url: string | null;
-  order: number;
-  is_active: boolean;
-  icon: string | null;
-}
+import { useAdmin } from "@/components/admin-provider";
+import { Link } from "@/lib/types";
 
-export function LinksManager({ initialLinks }: { initialLinks: Link[] }) {
-  const [links, setLinks] = useState<Link[]>(initialLinks);
+export function LinksManager({ }: { initialLinks?: Link[] }) {
+  const { links, setLinks } = useAdmin();
   const [isAdding, setIsAdding] = useState(false);
 
   const sensors = useSensors(
@@ -56,9 +49,7 @@ export function LinksManager({ initialLinks }: { initialLinks: Link[] }) {
     })
   );
 
-  useEffect(() => {
-    setLinks(initialLinks);
-  }, [initialLinks]);
+  // Removed initialLinks sync because AdminProvider handles it
 
   const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event;
