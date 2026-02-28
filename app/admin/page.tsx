@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { LogOut, Shield, Link2 } from "lucide-react";
+import { LogOut, Shield, Link2, ExternalLink } from "lucide-react";
 
 export default async function AdminPage() {
   const supabase = await createClient();
@@ -21,6 +21,12 @@ export default async function AdminPage() {
   if (!user) {
     redirect("/login");
   }
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("username, display_name")
+    .eq("id", user.id)
+    .single();
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4 py-12">
@@ -34,7 +40,7 @@ export default async function AdminPage() {
             Dashboard
           </h1>
           <p className="text-sm text-muted-foreground">
-            Welcome to your OpenLink admin panel
+            Welcome back, {profile?.display_name || profile?.username || "user"}
           </p>
         </div>
 
@@ -58,16 +64,26 @@ export default async function AdminPage() {
           <CardContent className="space-y-4">
             <div className="rounded-xl bg-slate-50 p-4 space-y-2">
               <div className="flex items-center justify-between text-sm">
+                <span className="text-muted-foreground">Username</span>
+                <span className="font-semibold text-primary">
+                  @{profile?.username}
+                </span>
+              </div>
+              <div className="flex items-center justify-between text-sm">
                 <span className="text-muted-foreground">Email</span>
                 <span className="font-medium text-foreground">
                   {user.email}
                 </span>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">User ID</span>
-                <span className="font-mono text-xs text-muted-foreground">
-                  {user.id.slice(0, 8)}...
-                </span>
+                <span className="text-muted-foreground">Public Page</span>
+                <a
+                  href={`/${profile?.username}`}
+                  className="flex items-center gap-1 font-medium text-primary hover:underline"
+                >
+                  /{profile?.username}
+                  <ExternalLink className="h-3 w-3" />
+                </a>
               </div>
             </div>
             <form>
