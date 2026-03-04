@@ -59,6 +59,43 @@ export function AppearanceEditor() {
     }
   };
 
+  const handleBgImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `bg-${Math.random()}.${fileExt}`;
+      const filePath = `${profile.id}/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('avatars')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data } = supabase.storage
+        .from('avatars')
+        .getPublicUrl(filePath);
+
+      updateProfile({ bg_image_url: data.publicUrl });
+      await supabase.from("profiles").update({ bg_image_url: data.publicUrl }).eq("id", profile.id);
+    } catch (error) {
+      console.error("Error uploading background image:", error);
+      alert("Failed to upload image.");
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const removeBgImage = async () => {
+    updateProfile({ bg_image_url: null });
+    await supabase.from("profiles").update({ bg_image_url: null }).eq("id", profile.id);
+  };
+
+
   return (
     <div className="space-y-6 pb-10">
       {/* Profile Section */}
@@ -168,6 +205,42 @@ export function AppearanceEditor() {
                   onBlur={(e) => handleBlur('theme_color', e.target.value)}
                   className="rounded-xl bg-white/5 border-white/10 shadow-none font-mono text-sm text-foreground transition-all duration-300 focus-visible:border-purple-500/50 focus-visible:ring-purple-500/20"
                 />
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <Label className="text-foreground font-medium text-sm">Background Image</Label>
+            <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+              {profile.bg_image_url ? (
+                <div className="relative h-24 w-full sm:w-48 rounded-xl overflow-hidden border border-white/10 shrink-0 bg-white/[0.04]">
+                  <img src={profile.bg_image_url} alt="Background" className="h-full w-full object-cover" />
+                </div>
+              ) : (
+                <div className="h-24 w-full sm:w-48 rounded-xl border border-dashed border-white/20 flex items-center justify-center bg-white/[0.02] shrink-0">
+                  <span className="text-xs text-muted-foreground">No Image</span>
+                </div>
+              )}
+              <div className="flex flex-col gap-2 w-full">
+                <div className="flex gap-2">
+                  <Button variant="outline" className="relative cursor-pointer glass border-white/10 hover:bg-white/10 rounded-xl text-foreground flex-1">
+                    <UploadCloud className="h-4 w-4 mr-2" />
+                    Upload
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleBgImageUpload}
+                      disabled={isUploading}
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                    />
+                  </Button>
+                  {profile.bg_image_url && (
+                    <Button variant="outline" onClick={removeBgImage} className="border-red-500/20 text-red-400 hover:bg-red-500/10 hover:border-red-500/30 rounded-xl">
+                      Remove
+                    </Button>
+                  )}
+                </div>
+                <p className="text-xs text-muted-foreground">Appears behind the card. Max 5MB.</p>
               </div>
             </div>
           </div>

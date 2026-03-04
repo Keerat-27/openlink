@@ -6,6 +6,7 @@ export interface ProfileData {
   avatar_url: string | null;
   theme_color: string | null;
   bg_color: string | null;
+  bg_image_url: string | null;
   button_style: string | null;
 }
 
@@ -17,4 +18,5 @@ export interface Link {
   order: number;
   is_active: boolean;
   icon: string | null;
+  layout: 'classic' | 'square' | 'featured';
 }

@@ -39,6 +39,7 @@ export async function createLink() {
       url: "",
       order: newOrder,
       is_active: false,
+      layout: "classic",
     })
     .select()
     .single();
@@ -52,7 +53,7 @@ export async function createLink() {
   return newLink;
 }
 
-export async function updateLink(id: string, updates: { title?: string; url?: string; is_active?: boolean }) {
+export async function updateLink(id: string, updates: { title?: string; url?: string; is_active?: boolean; layout?: string }) {
   const supabase = await createClient();
 
   const { error } = await supabase

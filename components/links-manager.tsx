@@ -21,7 +21,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import { GripVertical, Plus, Trash2 } from "lucide-react";
+import { GripVertical, Plus, Trash2, LayoutGrid, Square, List } from "lucide-react";
 
 import {
   createLink,
@@ -147,12 +147,20 @@ function SortableLinkCard({
   const [title, setTitle] = useState(link.title || "");
   const [url, setUrl] = useState(link.url || "");
   const [isActive, setIsActive] = useState(link.is_active || false);
+  const [layout, setLayout] = useState<"classic" | "square" | "featured">(
+    (link.layout as any) || "classic"
+  );
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleBlur = async () => {
-    if (title !== link.title || url !== link.url) {
-      await updateLink(link.id, { title, url });
+    if (title !== link.title || url !== link.url || layout !== link.layout) {
+      await updateLink(link.id, { title, url, layout });
     }
+  };
+
+  const handleLayoutChange = async (newLayout: "classic" | "square" | "featured") => {
+    setLayout(newLayout);
+    await updateLink(link.id, { layout: newLayout });
   };
 
   const handleSwitchChange = async (checked: boolean) => {
@@ -170,12 +178,13 @@ function SortableLinkCard({
     <div
       ref={setNodeRef}
       style={style}
-      className={`glass rounded-2xl p-4 flex items-center gap-4 transition-all duration-300 group hover:bg-white/[0.08] ${
+      className={`glass rounded-2xl p-4 flex flex-col transition-all duration-300 group hover:bg-white/[0.08] ${
         isDragging ? "ring-2 ring-purple-500/50 opacity-70 shadow-xl shadow-purple-500/10" : ""
       }`}
     >
-      {/* Drag Handle */}
-      <div
+      <div className="flex items-center gap-4 w-full">
+        {/* Drag Handle */}
+        <div
         {...attributes}
         {...listeners}
         className="flex items-center justify-center cursor-grab active:cursor-grabbing text-white/20 group-hover:text-white/40 transition-colors"
@@ -214,6 +223,47 @@ function SortableLinkCard({
           </Button>
           <Switch checked={isActive} onCheckedChange={handleSwitchChange} />
         </div>
+      </div>
+      </div>
+
+      {/* Layout Selector */}
+      <div className="flex gap-2 w-full mt-3 pt-3 border-t border-white/5">
+        <button
+          onClick={() => handleLayoutChange("classic")}
+          className={`flex-1 py-1.5 px-2 rounded-lg text-xs font-medium flex items-center justify-center gap-1.5 transition-colors ${
+            layout === "classic" 
+              ? "bg-purple-500/20 text-purple-300 ring-1 ring-purple-500/50" 
+              : "bg-white/5 text-muted-foreground hover:bg-white/10"
+          }`}
+          title="Classic row layout"
+        >
+          <List className="w-3.5 h-3.5" />
+          Classic
+        </button>
+        <button
+          onClick={() => handleLayoutChange("square")}
+          className={`flex-1 py-1.5 px-2 rounded-lg text-xs font-medium flex items-center justify-center gap-1.5 transition-colors ${
+            layout === "square" 
+              ? "bg-purple-500/20 text-purple-300 ring-1 ring-purple-500/50" 
+              : "bg-white/5 text-muted-foreground hover:bg-white/10"
+          }`}
+          title="Square block layout"
+        >
+          <Square className="w-3.5 h-3.5" />
+          Square
+        </button>
+        <button
+          onClick={() => handleLayoutChange("featured")}
+          className={`flex-1 py-1.5 px-2 rounded-lg text-xs font-medium flex items-center justify-center gap-1.5 transition-colors ${
+            layout === "featured" 
+              ? "bg-purple-500/20 text-purple-300 ring-1 ring-purple-500/50" 
+              : "bg-white/5 text-muted-foreground hover:bg-white/10"
+          }`}
+          title="Large featured block"
+        >
+          <LayoutGrid className="w-3.5 h-3.5" />
+          Featured
+        </button>
       </div>
     </div>
   );
