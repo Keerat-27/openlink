@@ -56,12 +56,18 @@ function LoginForm() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4 py-12">
-      <div className="w-full max-w-md space-y-8">
+    <div className="relative flex min-h-screen items-center justify-center px-4 py-12 overflow-hidden">
+      {/* Animated background orbs */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-purple-500/15 blur-[100px] animate-float" />
+        <div className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-cyan-500/15 blur-[100px] animate-float [animation-delay:3s]" />
+      </div>
+
+      <div className="relative w-full max-w-md space-y-8">
         {/* Logo & Branding */}
-        <div className="flex flex-col items-center space-y-3">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary shadow-md">
-            <Link2 className="h-7 w-7 text-primary-foreground" />
+        <div className="flex flex-col items-center space-y-3 animate-fade-in-1">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-brand shadow-xl shadow-purple-500/25">
+            <Link2 className="h-7 w-7 text-white" />
           </div>
           <h1 className="text-3xl font-bold tracking-tight text-foreground">
             OpenLink
@@ -73,22 +79,22 @@ function LoginForm() {
 
         {/* Status Messages */}
         {error && (
-          <div className="flex items-center gap-3 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+          <div className="flex items-center gap-3 rounded-2xl border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-400 backdrop-blur-sm animate-fade-in">
             <AlertCircle className="h-4 w-4 shrink-0" />
             <p>{error}</p>
           </div>
         )}
         {message && (
-          <div className="flex items-center gap-3 rounded-xl border border-green-200 bg-green-50 p-4 text-sm text-green-700">
+          <div className="flex items-center gap-3 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 p-4 text-sm text-emerald-400 backdrop-blur-sm animate-fade-in">
             <CheckCircle2 className="h-4 w-4 shrink-0" />
             <p>{message}</p>
           </div>
         )}
 
         {/* Auth Card */}
-        <Card className="border border-gray-200 shadow-sm rounded-2xl">
+        <Card className="animate-fade-in-2 glass-strong rounded-2xl shadow-2xl shadow-black/20">
           <CardHeader className="space-y-1 pb-4">
-            <CardTitle className="text-2xl font-bold tracking-tight">
+            <CardTitle className="text-2xl font-bold tracking-tight text-foreground">
               Welcome back
             </CardTitle>
             <CardDescription className="text-muted-foreground">
@@ -100,7 +106,7 @@ function LoginForm() {
             <Button
               type="button"
               variant="outline"
-              className="w-full gap-3 rounded-xl py-5 text-sm font-medium hover:bg-gray-50 transition-colors cursor-pointer disabled:opacity-50"
+              className="w-full gap-3 rounded-xl py-5 text-sm font-medium glass transition-all duration-300 hover:bg-white/10 cursor-pointer disabled:opacity-50 border-white/10 text-foreground"
               onClick={handleGoogleSignIn}
               disabled={isLoading}
             >
@@ -132,10 +138,10 @@ function LoginForm() {
             {/* Divider */}
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <Separator className="w-full" />
+                <Separator className="w-full bg-white/10" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-card px-3 text-muted-foreground">
+                <span className="bg-[rgba(255,255,255,0.08)] backdrop-blur-sm px-3 py-0.5 rounded-full text-muted-foreground">
                   or continue with email
                 </span>
               </div>
@@ -144,7 +150,7 @@ function LoginForm() {
             {/* Email/Password Form */}
             <form className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-sm font-medium">
+                <Label htmlFor="email" className="text-sm font-medium text-foreground">
                   Email
                 </Label>
                 <div className="relative">
@@ -156,12 +162,12 @@ function LoginForm() {
                     placeholder="you@example.com"
                     required
                     disabled={isLoading}
-                    className="rounded-xl pl-10 py-5 transition-colors focus:border-primary"
+                    className="rounded-xl pl-10 py-5 bg-white/5 border-white/10 text-foreground placeholder:text-muted-foreground transition-all duration-300 focus:border-purple-500/50 focus:ring-purple-500/20 focus:bg-white/8"
                   />
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-sm font-medium">
+                <Label htmlFor="password" className="text-sm font-medium text-foreground">
                   Password
                 </Label>
                 <div className="relative">
@@ -174,7 +180,7 @@ function LoginForm() {
                     required
                     minLength={6}
                     disabled={isLoading}
-                    className="rounded-xl pl-10 py-5 transition-colors focus:border-primary"
+                    className="rounded-xl pl-10 py-5 bg-white/5 border-white/10 text-foreground placeholder:text-muted-foreground transition-all duration-300 focus:border-purple-500/50 focus:ring-purple-500/20 focus:bg-white/8"
                   />
                 </div>
               </div>
@@ -183,7 +189,7 @@ function LoginForm() {
               <div className="flex flex-col gap-3 pt-2">
                 <Button
                   formAction={(formData) => handleSubmit(formData, "login")}
-                  className="w-full rounded-xl py-5 text-sm font-semibold transition-all hover:shadow-md cursor-pointer disabled:opacity-50"
+                  className="w-full rounded-xl py-5 text-sm font-semibold bg-gradient-brand text-white shadow-lg shadow-purple-500/20 transition-all duration-300 hover:shadow-purple-500/40 hover:scale-[1.02] cursor-pointer disabled:opacity-50 border-0"
                   disabled={isLoading}
                 >
                   {loadingAction === "login" ? (
@@ -194,7 +200,7 @@ function LoginForm() {
                 <Button
                   formAction={(formData) => handleSubmit(formData, "signup")}
                   variant="outline"
-                  className="w-full rounded-xl py-5 text-sm font-semibold transition-all hover:bg-gray-50 cursor-pointer disabled:opacity-50"
+                  className="w-full rounded-xl py-5 text-sm font-semibold glass transition-all duration-300 hover:bg-white/10 cursor-pointer disabled:opacity-50 border-white/10 text-foreground"
                   disabled={isLoading}
                 >
                   {loadingAction === "signup" ? (
@@ -208,7 +214,7 @@ function LoginForm() {
         </Card>
 
         {/* Footer */}
-        <p className="text-center text-xs text-muted-foreground">
+        <p className="animate-fade-in-3 text-center text-xs text-muted-foreground">
           By continuing, you agree to our Terms of Service and Privacy Policy.
         </p>
       </div>
@@ -220,7 +226,7 @@ export default function LoginPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex min-h-screen items-center justify-center bg-slate-50">
+        <div className="flex min-h-screen items-center justify-center">
           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
         </div>
       }

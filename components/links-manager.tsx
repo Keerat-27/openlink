@@ -19,7 +19,6 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { GripVertical, Plus, Trash2 } from "lucide-react";
@@ -41,15 +40,13 @@ export function LinksManager({ }: { initialLinks?: Link[] }) {
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 5, // minimum distance to activate 
+        distance: 5,
       },
     }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
-
-  // Removed initialLinks sync because AdminProvider handles it
 
   const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event;
@@ -60,8 +57,7 @@ export function LinksManager({ }: { initialLinks?: Link[] }) {
         const newIndex = items.findIndex((i) => i.id === over.id);
 
         const newLinks = arrayMove(items, oldIndex, newIndex);
-        
-        // Update database (optimistic UI)
+
         const updates = newLinks.map((link, index) => ({
           id: link.id,
           order: index,
@@ -95,11 +91,11 @@ export function LinksManager({ }: { initialLinks?: Link[] }) {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <Button
         onClick={handleAddLink}
         disabled={isAdding}
-        className="w-full bg-black text-white hover:bg-slate-800 rounded-xl py-6 font-medium shadow-sm transition-all cursor-pointer"
+        className="w-full bg-gradient-brand text-white hover:shadow-purple-500/30 rounded-xl py-6 font-medium shadow-lg shadow-purple-500/15 transition-all duration-300 cursor-pointer hover:scale-[1.01] border-0"
       >
         <Plus className="mr-2 h-5 w-5" />
         Add Link
@@ -111,7 +107,7 @@ export function LinksManager({ }: { initialLinks?: Link[] }) {
         onDragEnd={handleDragEnd}
       >
         <SortableContext items={links} strategy={verticalListSortingStrategy}>
-          <div className="space-y-4">
+          <div className="space-y-3">
             {links.map((link) => (
               <SortableLinkCard
                 key={link.id}
@@ -154,7 +150,6 @@ function SortableLinkCard({
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleBlur = async () => {
-    // only update if changed
     if (title !== link.title || url !== link.url) {
       await updateLink(link.id, { title, url });
     }
@@ -168,22 +163,22 @@ function SortableLinkCard({
   const handleDelete = async () => {
     setIsDeleting(true);
     await onDelete(link.id);
-    setIsDeleting(false); // only needed if onDelete fails
+    setIsDeleting(false);
   };
 
   return (
     <div
       ref={setNodeRef}
       style={style}
-      className={`bg-white border border-slate-200 rounded-2xl p-4 flex items-center gap-4 hover:shadow-md transition-shadow group ${
-        isDragging ? "ring-2 ring-black opacity-50 shadow-lg" : ""
+      className={`glass rounded-2xl p-4 flex items-center gap-4 transition-all duration-300 group hover:bg-white/[0.08] ${
+        isDragging ? "ring-2 ring-purple-500/50 opacity-70 shadow-xl shadow-purple-500/10" : ""
       }`}
     >
       {/* Drag Handle */}
       <div
         {...attributes}
         {...listeners}
-        className="flex items-center justify-center cursor-grab active:cursor-grabbing text-slate-300 group-hover:text-slate-500 transition-colors"
+        className="flex items-center justify-center cursor-grab active:cursor-grabbing text-white/20 group-hover:text-white/40 transition-colors"
       >
         <GripVertical className="h-5 w-5" />
       </div>
@@ -196,14 +191,14 @@ function SortableLinkCard({
             onChange={(e) => setTitle(e.target.value)}
             onBlur={handleBlur}
             placeholder="Title"
-            className="h-8 text-sm font-semibold bg-transparent border-transparent hover:border-slate-200 focus-visible:border-black focus-visible:ring-black rounded-lg shadow-none px-2 text-slate-900 transition-all"
+            className="h-8 text-sm font-semibold bg-transparent border-transparent hover:border-white/10 focus-visible:border-purple-500/50 focus-visible:ring-purple-500/20 rounded-lg shadow-none px-2 text-foreground placeholder:text-muted-foreground transition-all"
           />
           <Input
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             onBlur={handleBlur}
             placeholder="URL"
-            className="h-8 text-sm bg-transparent border-transparent hover:border-slate-200 focus-visible:border-black focus-visible:ring-black rounded-lg shadow-none px-2 text-slate-600 transition-all"
+            className="h-8 text-sm bg-transparent border-transparent hover:border-white/10 focus-visible:border-purple-500/50 focus-visible:ring-purple-500/20 rounded-lg shadow-none px-2 text-muted-foreground placeholder:text-white/20 transition-all font-mono text-xs"
           />
         </div>
 
@@ -213,7 +208,7 @@ function SortableLinkCard({
             size="icon"
             onClick={handleDelete}
             disabled={isDeleting}
-            className="text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl cursor-pointer transition-colors h-9 w-9"
+            className="text-white/20 hover:text-red-400 hover:bg-red-500/10 rounded-xl cursor-pointer transition-all duration-200 h-9 w-9"
           >
             <Trash2 className="h-4 w-4" />
           </Button>

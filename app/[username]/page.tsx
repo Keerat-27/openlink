@@ -105,8 +105,8 @@ export default async function PublicProfilePage({
   const activeLinks = links || [];
 
   // 3. Styling Configuration
-  const bgColor = profile.bg_color || "#f3f4f6"; // gray-100 default
-  const themeColor = profile.theme_color || "#09090b"; // zinc-950 default
+  const bgColor = profile.bg_color || "#f3f4f6";
+  const themeColor = profile.theme_color || "#09090b";
   const textColor = getContrastYIQ(bgColor);
 
   const buttonShapeClass =
@@ -147,10 +147,10 @@ export default async function PublicProfilePage({
                 <img
                   src={profile.avatar_url}
                   alt={profile.display_name || profile.username}
-                  className="h-28 w-28 rounded-full object-cover shadow-xl ring-2 ring-white/70"
+                  className="h-28 w-28 rounded-full object-cover shadow-xl ring-4 ring-white/50"
                 />
               ) : (
-                <div className="flex h-28 w-28 items-center justify-center rounded-full bg-gradient-to-br from-slate-100 via-white to-slate-200 text-slate-500 shadow-xl ring-2 ring-white/70">
+                <div className="flex h-28 w-28 items-center justify-center rounded-full bg-gradient-to-br from-slate-100 via-white to-slate-200 text-slate-500 shadow-xl ring-4 ring-white/50">
                   <span className="text-3xl font-bold">
                     {profile.display_name?.[0] ||
                       profile.username[0]?.toUpperCase()}
@@ -167,8 +167,8 @@ export default async function PublicProfilePage({
 
               {profile.bio && (
                 <p
-                  className="mt-3 max-w-sm text-base leading-relaxed text-gray-700/80"
-                  style={{ color: textColor, opacity: 0.8 }}
+                  className="mt-3 max-w-sm text-base leading-relaxed"
+                  style={{ color: textColor, opacity: 0.7 }}
                 >
                   {profile.bio}
                 </p>
@@ -187,7 +187,7 @@ export default async function PublicProfilePage({
                     className={[
                       "group relative flex w-full items-center justify-center overflow-hidden px-6 py-4 text-lg font-semibold",
                       "text-center transition-all duration-300 cursor-pointer",
-                      "shadow-sm hover:shadow-md hover:scale-[1.02] active:scale-95",
+                      "shadow-sm hover:shadow-lg hover:scale-[1.02] active:scale-95",
                       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent",
                       buttonShapeClass,
                       isOutline
@@ -209,8 +209,8 @@ export default async function PublicProfilePage({
                 ))
               ) : (
                 <p
-                  className="mt-6 text-sm text-gray-700/70"
-                  style={{ color: textColor, opacity: 0.7 }}
+                  className="mt-6 text-sm"
+                  style={{ color: textColor, opacity: 0.6 }}
                 >
                   No links available yet.
                 </p>
@@ -221,8 +221,8 @@ export default async function PublicProfilePage({
           {/* Brand footer */}
           <Link
             href="/"
-            className="mt-8 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-black/40 transition-opacity hover:opacity-100"
-            style={{ color: textColor, opacity: 0.5 }}
+            className="mt-8 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.2em] transition-opacity hover:opacity-100"
+            style={{ color: textColor, opacity: 0.4 }}
           >
             <Link2 className="h-4 w-4" />
             <span>OpenLink</span>

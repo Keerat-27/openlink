@@ -82,12 +82,18 @@ function OnboardingForm() {
   const isValid = availability?.available === true && username.length >= 3;
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4 py-12">
-      <div className="w-full max-w-md space-y-8">
+    <div className="relative flex min-h-screen items-center justify-center px-4 py-12 overflow-hidden">
+      {/* Animated background orbs */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -top-40 -left-40 h-80 w-80 rounded-full bg-purple-500/15 blur-[100px] animate-float" />
+        <div className="absolute -bottom-40 -right-40 h-80 w-80 rounded-full bg-cyan-500/15 blur-[100px] animate-float [animation-delay:3s]" />
+      </div>
+
+      <div className="relative w-full max-w-md space-y-8">
         {/* Header */}
-        <div className="flex flex-col items-center space-y-3">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary shadow-md">
-            <Link2 className="h-7 w-7 text-primary-foreground" />
+        <div className="flex flex-col items-center space-y-3 animate-fade-in-1">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-brand shadow-xl shadow-purple-500/25">
+            <Link2 className="h-7 w-7 text-white" />
           </div>
           <h1 className="text-3xl font-bold tracking-tight text-foreground">
             Claim your link
@@ -99,18 +105,18 @@ function OnboardingForm() {
 
         {/* Error from server */}
         {error && (
-          <div className="flex items-center gap-3 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+          <div className="flex items-center gap-3 rounded-2xl border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-400 backdrop-blur-sm animate-fade-in">
             <AlertCircle className="h-4 w-4 shrink-0" />
             <p>{error}</p>
           </div>
         )}
 
         {/* Onboarding Card */}
-        <Card className="border border-gray-200 shadow-sm rounded-2xl">
+        <Card className="animate-fade-in-2 glass-strong rounded-2xl shadow-2xl shadow-black/20">
           <CardHeader className="space-y-1 pb-4">
             <div className="flex items-center gap-2">
-              <Sparkles className="h-5 w-5 text-primary" />
-              <CardTitle className="text-xl font-bold tracking-tight">
+              <Sparkles className="h-5 w-5 text-purple-400" />
+              <CardTitle className="text-xl font-bold tracking-tight text-foreground">
                 Pick your username
               </CardTitle>
             </div>
@@ -121,13 +127,13 @@ function OnboardingForm() {
           <CardContent>
             <form action={handleSubmit} className="space-y-6">
               {/* URL Preview */}
-              <div className="rounded-xl bg-slate-50 p-4">
+              <div className="rounded-xl bg-white/5 border border-white/8 p-4">
                 <p className="text-sm text-muted-foreground mb-1">
                   Your public page
                 </p>
-                <p className="text-base font-semibold text-foreground tracking-tight">
+                <p className="text-base font-semibold text-foreground tracking-tight font-mono">
                   openlink.com/
-                  <span className={username ? "text-primary" : "text-muted-foreground"}>
+                  <span className={username ? "text-gradient" : "text-muted-foreground"}>
                     {username || "username"}
                   </span>
                 </p>
@@ -135,7 +141,7 @@ function OnboardingForm() {
 
               {/* Username Input */}
               <div className="space-y-2">
-                <Label htmlFor="username" className="text-sm font-medium">
+                <Label htmlFor="username" className="text-sm font-medium text-foreground">
                   Username
                 </Label>
                 <div className="relative">
@@ -150,7 +156,7 @@ function OnboardingForm() {
                     maxLength={30}
                     required
                     disabled={isSubmitting}
-                    className="rounded-xl pl-10 pr-10 py-5 transition-colors focus:border-primary"
+                    className="rounded-xl pl-10 pr-10 py-5 bg-white/5 border-white/10 text-foreground placeholder:text-muted-foreground transition-all duration-300 focus:border-purple-500/50 focus:ring-purple-500/20"
                     autoComplete="off"
                     autoFocus
                   />
@@ -160,10 +166,10 @@ function OnboardingForm() {
                       <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
                     )}
                     {!isChecking && availability?.available && (
-                      <CheckCircle2 className="h-4 w-4 text-green-600" />
+                      <CheckCircle2 className="h-4 w-4 text-emerald-400" />
                     )}
                     {!isChecking && availability && !availability.available && (
-                      <XCircle className="h-4 w-4 text-red-500" />
+                      <XCircle className="h-4 w-4 text-red-400" />
                     )}
                   </div>
                 </div>
@@ -173,8 +179,8 @@ function OnboardingForm() {
                   <p
                     className={`text-xs mt-1.5 ${
                       availability.available
-                        ? "text-green-600"
-                        : "text-red-500"
+                        ? "text-emerald-400"
+                        : "text-red-400"
                     }`}
                   >
                     {availability.available
@@ -194,7 +200,7 @@ function OnboardingForm() {
               {/* Submit */}
               <Button
                 type="submit"
-                className="w-full rounded-xl py-5 text-sm font-semibold transition-all hover:shadow-md cursor-pointer disabled:opacity-50"
+                className="w-full rounded-xl py-5 text-sm font-semibold bg-gradient-brand text-white shadow-lg shadow-purple-500/20 transition-all duration-300 hover:shadow-purple-500/40 hover:scale-[1.02] cursor-pointer disabled:opacity-50 border-0"
                 disabled={!isValid || isSubmitting}
               >
                 {isSubmitting ? (
@@ -206,7 +212,7 @@ function OnboardingForm() {
           </CardContent>
         </Card>
 
-        <p className="text-center text-xs text-muted-foreground">
+        <p className="animate-fade-in-3 text-center text-xs text-muted-foreground">
           Choose wisely — your username is permanent and visible to everyone.
         </p>
       </div>
@@ -218,7 +224,7 @@ export default function OnboardingPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex min-h-screen items-center justify-center bg-slate-50">
+        <div className="flex min-h-screen items-center justify-center">
           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
         </div>
       }

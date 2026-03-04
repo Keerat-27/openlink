@@ -60,30 +60,32 @@ export function AppearanceEditor() {
   };
 
   return (
-    <div className="space-y-8 pb-10">
+    <div className="space-y-6 pb-10">
       {/* Profile Section */}
-      <Card className="bg-white border border-slate-200/60 shadow-[0_2px_8px_rgb(0,0,0,0.04)] rounded-2xl">
+      <Card className="glass rounded-2xl shadow-xl shadow-black/10">
         <CardHeader className="p-6 md:p-8 pb-0">
-          <CardTitle className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">Profile Details</CardTitle>
+          <CardTitle className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4">
+            Profile Details
+          </CardTitle>
         </CardHeader>
         <CardContent className="p-6 md:p-8 pt-0 space-y-6">
           <div className="flex items-center gap-6">
-            <div className="relative h-24 w-24 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center border shrink-0">
+            <div className="relative h-24 w-24 rounded-full overflow-hidden flex items-center justify-center border border-white/10 shrink-0 bg-white/[0.04] ring-2 ring-white/[0.06]">
               {profile.avatar_url ? (
                 <img src={profile.avatar_url} alt="Avatar" className="h-full w-full object-cover" />
               ) : (
-                <span className="text-2xl font-bold text-gray-400">
+                <span className="text-2xl font-bold text-muted-foreground">
                   {profile.display_name?.[0] || profile.username?.[0]?.toUpperCase()}
                 </span>
               )}
               {isUploading && (
-                <div className="absolute inset-0 bg-white/50 flex items-center justify-center">
-                  <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                <div className="absolute inset-0 bg-black/50 flex items-center justify-center backdrop-blur-sm">
+                  <Loader2 className="h-6 w-6 animate-spin text-purple-400" />
                 </div>
               )}
             </div>
             <div className="flex flex-col gap-2">
-              <Button variant="outline" className="relative cursor-pointer bg-white border border-slate-200 hover:bg-slate-50 rounded-xl text-slate-900">
+              <Button variant="outline" className="relative cursor-pointer glass border-white/10 hover:bg-white/10 rounded-xl text-foreground transition-all duration-200">
                 <UploadCloud className="h-4 w-4 mr-2" />
                 Upload Image
                 <input
@@ -94,27 +96,27 @@ export function AppearanceEditor() {
                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                 />
               </Button>
-              <p className="text-xs text-slate-500">Recommended size: 256x256px</p>
+              <p className="text-xs text-muted-foreground">Recommended size: 256x256px</p>
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label className="text-slate-900 font-medium text-sm">Display Name</Label>
+            <Label className="text-foreground font-medium text-sm">Display Name</Label>
             <Input 
               defaultValue={profile.display_name || ""} 
               onBlur={(e) => handleBlur('display_name', e.target.value)}
               placeholder="Your Name"
-              className="rounded-xl border-slate-200 shadow-sm focus-visible:border-black focus-visible:ring-black transition-all bg-white text-sm text-slate-600"
+              className="rounded-xl bg-white/5 border-white/10 shadow-none text-foreground placeholder:text-muted-foreground transition-all duration-300 focus-visible:border-purple-500/50 focus-visible:ring-purple-500/20 text-sm"
             />
           </div>
 
           <div className="space-y-2">
-            <Label className="text-slate-900 font-medium text-sm">Bio</Label>
+            <Label className="text-foreground font-medium text-sm">Bio</Label>
             <Textarea 
               defaultValue={profile.bio || ""} 
               onBlur={(e) => handleBlur('bio', e.target.value)}
               placeholder="Tell us about yourself"
-              className="resize-none rounded-xl border-slate-200 shadow-sm focus-visible:border-black focus-visible:ring-black transition-all bg-white text-sm text-slate-600"
+              className="resize-none rounded-xl bg-white/5 border-white/10 shadow-none text-foreground placeholder:text-muted-foreground transition-all duration-300 focus-visible:border-purple-500/50 focus-visible:ring-purple-500/20 text-sm"
               maxLength={150}
             />
           </div>
@@ -122,17 +124,19 @@ export function AppearanceEditor() {
       </Card>
 
       {/* Theming Section */}
-      <Card className="bg-white border border-slate-200/60 shadow-[0_2px_8px_rgb(0,0,0,0.04)] rounded-2xl md:-mt-2">
+      <Card className="glass rounded-2xl shadow-xl shadow-black/10">
         <CardHeader className="p-6 md:p-8 pb-0">
-          <CardTitle className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">Theming</CardTitle>
+          <CardTitle className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4">
+            Theming
+          </CardTitle>
         </CardHeader>
         <CardContent className="p-6 md:p-8 pt-0 space-y-8">
           
           <div className="grid grid-cols-2 gap-6">
             <div className="space-y-2">
-              <Label className="text-slate-900 font-medium text-sm">Background Color</Label>
+              <Label className="text-foreground font-medium text-sm">Background Color</Label>
               <div className="flex gap-3">
-                <div className="h-10 w-10 rounded-xl border border-slate-200 shadow-sm overflow-hidden shrink-0">
+                <div className="h-10 w-10 rounded-xl border border-white/10 shadow-sm overflow-hidden shrink-0 ring-1 ring-white/5">
                   <input 
                     type="color" 
                     defaultValue={profile.bg_color || "#f3f4f6"}
@@ -143,15 +147,15 @@ export function AppearanceEditor() {
                 <Input 
                   defaultValue={profile.bg_color || "#f3f4f6"}
                   onBlur={(e) => handleBlur('bg_color', e.target.value)}
-                  className="rounded-xl border-slate-200 shadow-sm focus-visible:border-black focus-visible:ring-black transition-all bg-white font-mono text-sm text-slate-600"
+                  className="rounded-xl bg-white/5 border-white/10 shadow-none font-mono text-sm text-foreground transition-all duration-300 focus-visible:border-purple-500/50 focus-visible:ring-purple-500/20"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label className="text-slate-900 font-medium text-sm">Theme Color (Buttons/Text)</Label>
+              <Label className="text-foreground font-medium text-sm">Theme Color (Buttons/Text)</Label>
               <div className="flex gap-3">
-                <div className="h-10 w-10 rounded-xl border border-slate-200 shadow-sm overflow-hidden shrink-0">
+                <div className="h-10 w-10 rounded-xl border border-white/10 shadow-sm overflow-hidden shrink-0 ring-1 ring-white/5">
                   <input 
                     type="color" 
                     defaultValue={profile.theme_color || "#09090b"}
@@ -162,14 +166,14 @@ export function AppearanceEditor() {
                 <Input 
                   defaultValue={profile.theme_color || "#09090b"}
                   onBlur={(e) => handleBlur('theme_color', e.target.value)}
-                  className="rounded-xl border-slate-200 shadow-sm focus-visible:border-black focus-visible:ring-black transition-all bg-white font-mono text-sm text-slate-600"
+                  className="rounded-xl bg-white/5 border-white/10 shadow-none font-mono text-sm text-foreground transition-all duration-300 focus-visible:border-purple-500/50 focus-visible:ring-purple-500/20"
                 />
               </div>
             </div>
           </div>
 
           <div className="space-y-3">
-            <Label className="text-slate-900 font-medium text-sm">Button Style</Label>
+            <Label className="text-foreground font-medium text-sm">Button Style</Label>
             <RadioGroup 
               defaultValue={profile.button_style || 'solid'} 
               onValueChange={(val) => handleBlur('button_style', val)}
@@ -179,10 +183,10 @@ export function AppearanceEditor() {
                 <RadioGroupItem value="solid" id="solid" className="peer sr-only" />
                 <Label
                   htmlFor="solid"
-                  className="flex flex-col items-center justify-center rounded-xl border-2 border-transparent bg-gray-50 p-4 hover:bg-gray-100 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5 cursor-pointer transition-colors h-24"
+                  className="flex flex-col items-center justify-center rounded-xl border-2 border-transparent bg-white/[0.04] p-4 hover:bg-white/[0.08] peer-data-[state=checked]:border-purple-500/50 peer-data-[state=checked]:bg-purple-500/5 cursor-pointer transition-all duration-200 h-24"
                 >
-                  <div className="w-full h-8 bg-zinc-900 rounded-lg mb-2" />
-                  <span className="text-xs font-semibold">Solid</span>
+                  <div className="w-full h-8 bg-white/80 rounded-lg mb-2" />
+                  <span className="text-xs font-semibold text-foreground">Solid</span>
                 </Label>
               </div>
 
@@ -190,10 +194,10 @@ export function AppearanceEditor() {
                 <RadioGroupItem value="outline" id="outline" className="peer sr-only" />
                 <Label
                   htmlFor="outline"
-                  className="flex flex-col items-center justify-center rounded-xl border-2 border-transparent bg-gray-50 p-4 hover:bg-gray-100 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5 cursor-pointer transition-colors h-24"
+                  className="flex flex-col items-center justify-center rounded-xl border-2 border-transparent bg-white/[0.04] p-4 hover:bg-white/[0.08] peer-data-[state=checked]:border-purple-500/50 peer-data-[state=checked]:bg-purple-500/5 cursor-pointer transition-all duration-200 h-24"
                 >
-                  <div className="w-full h-8 border-2 border-zinc-900 rounded-lg mb-2 bg-white" />
-                  <span className="text-xs font-semibold">Outline</span>
+                  <div className="w-full h-8 border-2 border-white/60 rounded-lg mb-2 bg-transparent" />
+                  <span className="text-xs font-semibold text-foreground">Outline</span>
                 </Label>
               </div>
 
@@ -201,10 +205,10 @@ export function AppearanceEditor() {
                 <RadioGroupItem value="rounded" id="rounded" className="peer sr-only" />
                 <Label
                   htmlFor="rounded"
-                  className="flex flex-col items-center justify-center rounded-xl border-2 border-transparent bg-gray-50 p-4 hover:bg-gray-100 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5 cursor-pointer transition-colors h-24"
+                  className="flex flex-col items-center justify-center rounded-xl border-2 border-transparent bg-white/[0.04] p-4 hover:bg-white/[0.08] peer-data-[state=checked]:border-purple-500/50 peer-data-[state=checked]:bg-purple-500/5 cursor-pointer transition-all duration-200 h-24"
                 >
-                  <div className="w-full h-8 bg-zinc-900 rounded-full mb-2" />
-                  <span className="text-xs font-semibold">Rounded</span>
+                  <div className="w-full h-8 bg-white/80 rounded-full mb-2" />
+                  <span className="text-xs font-semibold text-foreground">Rounded</span>
                 </Label>
               </div>
             </RadioGroup>
