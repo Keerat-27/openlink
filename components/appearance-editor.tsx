@@ -99,15 +99,15 @@ export function AppearanceEditor() {
   return (
     <div className="space-y-6 pb-10">
       {/* Profile Section */}
-      <Card className="glass rounded-2xl shadow-xl shadow-black/10">
-        <CardHeader className="p-6 md:p-8 pb-0">
-          <CardTitle className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4">
+      <Card className="section-card">
+        <CardHeader className="section-card-header">
+          <CardTitle className="section-card-title">
             Profile Details
           </CardTitle>
         </CardHeader>
-        <CardContent className="p-6 md:p-8 pt-0 space-y-6">
+        <CardContent className="section-card-content space-y-6">
           <div className="flex items-center gap-6">
-            <div className="relative h-24 w-24 rounded-full overflow-hidden flex items-center justify-center border border-white/10 shrink-0 bg-white/[0.04] ring-2 ring-white/[0.06]">
+            <div className="avatar-wrapper">
               {profile.avatar_url ? (
                 <img src={profile.avatar_url} alt="Avatar" className="h-full w-full object-cover" />
               ) : (
@@ -122,7 +122,7 @@ export function AppearanceEditor() {
               )}
             </div>
             <div className="flex flex-col gap-2">
-              <Button variant="outline" className="relative cursor-pointer glass border-white/10 hover:bg-white/10 rounded-xl text-foreground transition-all duration-200">
+              <Button variant="outline" className="glass-button">
                 <UploadCloud className="h-4 w-4 mr-2" />
                 Upload Image
                 <input
@@ -138,22 +138,22 @@ export function AppearanceEditor() {
           </div>
 
           <div className="space-y-2">
-            <Label className="text-foreground font-medium text-sm">Display Name</Label>
+            <Label className="form-label">Display Name</Label>
             <Input 
               defaultValue={profile.display_name || ""} 
               onBlur={(e) => handleBlur('display_name', e.target.value)}
               placeholder="Your Name"
-              className="rounded-xl bg-white/5 border-white/10 shadow-none text-foreground placeholder:text-muted-foreground transition-all duration-300 focus-visible:border-purple-500/50 focus-visible:ring-purple-500/20 text-sm"
+              className="form-input"
             />
           </div>
 
           <div className="space-y-2">
-            <Label className="text-foreground font-medium text-sm">Bio</Label>
+            <Label className="form-label">Bio</Label>
             <Textarea 
               defaultValue={profile.bio || ""} 
               onBlur={(e) => handleBlur('bio', e.target.value)}
               placeholder="Tell us about yourself"
-              className="resize-none rounded-xl bg-white/5 border-white/10 shadow-none text-foreground placeholder:text-muted-foreground transition-all duration-300 focus-visible:border-purple-500/50 focus-visible:ring-purple-500/20 text-sm"
+              className="form-input resize-none"
               maxLength={150}
             />
           </div>
@@ -161,19 +161,19 @@ export function AppearanceEditor() {
       </Card>
 
       {/* Theming Section */}
-      <Card className="glass rounded-2xl shadow-xl shadow-black/10">
-        <CardHeader className="p-6 md:p-8 pb-0">
-          <CardTitle className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4">
+      <Card className="section-card">
+        <CardHeader className="section-card-header">
+          <CardTitle className="section-card-title">
             Theming
           </CardTitle>
         </CardHeader>
-        <CardContent className="p-6 md:p-8 pt-0 space-y-8">
+        <CardContent className="section-card-content space-y-8">
           
           <div className="grid grid-cols-2 gap-6">
             <div className="space-y-2">
-              <Label className="text-foreground font-medium text-sm">Background Color</Label>
+              <Label className="form-label">Background Color</Label>
               <div className="flex gap-3">
-                <div className="h-10 w-10 rounded-xl border border-white/10 shadow-sm overflow-hidden shrink-0 ring-1 ring-white/5">
+                <div className="color-picker-wrapper">
                   <input 
                     type="color" 
                     defaultValue={profile.bg_color || "#f3f4f6"}
@@ -184,15 +184,15 @@ export function AppearanceEditor() {
                 <Input 
                   defaultValue={profile.bg_color || "#f3f4f6"}
                   onBlur={(e) => handleBlur('bg_color', e.target.value)}
-                  className="rounded-xl bg-white/5 border-white/10 shadow-none font-mono text-sm text-foreground transition-all duration-300 focus-visible:border-purple-500/50 focus-visible:ring-purple-500/20"
+                  className="form-input-mono"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label className="text-foreground font-medium text-sm">Theme Color (Buttons/Text)</Label>
+              <Label className="form-label">Theme Color (Buttons/Text)</Label>
               <div className="flex gap-3">
-                <div className="h-10 w-10 rounded-xl border border-white/10 shadow-sm overflow-hidden shrink-0 ring-1 ring-white/5">
+                <div className="color-picker-wrapper">
                   <input 
                     type="color" 
                     defaultValue={profile.theme_color || "#09090b"}
@@ -203,27 +203,27 @@ export function AppearanceEditor() {
                 <Input 
                   defaultValue={profile.theme_color || "#09090b"}
                   onBlur={(e) => handleBlur('theme_color', e.target.value)}
-                  className="rounded-xl bg-white/5 border-white/10 shadow-none font-mono text-sm text-foreground transition-all duration-300 focus-visible:border-purple-500/50 focus-visible:ring-purple-500/20"
+                  className="form-input-mono"
                 />
               </div>
             </div>
           </div>
 
           <div className="space-y-3">
-            <Label className="text-foreground font-medium text-sm">Background Image</Label>
+            <Label className="form-label">Background Image</Label>
             <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
               {profile.bg_image_url ? (
-                <div className="relative h-24 w-full sm:w-48 rounded-xl overflow-hidden border border-white/10 shrink-0 bg-white/[0.04]">
+                <div className="bg-image-preview">
                   <img src={profile.bg_image_url} alt="Background" className="h-full w-full object-cover" />
                 </div>
               ) : (
-                <div className="h-24 w-full sm:w-48 rounded-xl border border-dashed border-white/20 flex items-center justify-center bg-white/[0.02] shrink-0">
+                <div className="bg-image-empty">
                   <span className="text-xs text-muted-foreground">No Image</span>
                 </div>
               )}
               <div className="flex flex-col gap-2 w-full">
                 <div className="flex gap-2">
-                  <Button variant="outline" className="relative cursor-pointer glass border-white/10 hover:bg-white/10 rounded-xl text-foreground flex-1">
+                  <Button variant="outline" className="glass-button flex-1">
                     <UploadCloud className="h-4 w-4 mr-2" />
                     Upload
                     <input
@@ -246,7 +246,7 @@ export function AppearanceEditor() {
           </div>
 
           <div className="space-y-3">
-            <Label className="text-foreground font-medium text-sm">Button Style</Label>
+            <Label className="form-label">Button Style</Label>
             <RadioGroup 
               defaultValue={profile.button_style || 'solid'} 
               onValueChange={(val) => handleBlur('button_style', val)}
@@ -256,7 +256,7 @@ export function AppearanceEditor() {
                 <RadioGroupItem value="solid" id="solid" className="peer sr-only" />
                 <Label
                   htmlFor="solid"
-                  className="flex flex-col items-center justify-center rounded-xl border-2 border-transparent bg-white/[0.04] p-4 hover:bg-white/[0.08] peer-data-[state=checked]:border-purple-500/50 peer-data-[state=checked]:bg-purple-500/5 cursor-pointer transition-all duration-200 h-24"
+                  className="theme-radio-card"
                 >
                   <div className="w-full h-8 bg-white/80 rounded-lg mb-2" />
                   <span className="text-xs font-semibold text-foreground">Solid</span>
@@ -267,7 +267,7 @@ export function AppearanceEditor() {
                 <RadioGroupItem value="outline" id="outline" className="peer sr-only" />
                 <Label
                   htmlFor="outline"
-                  className="flex flex-col items-center justify-center rounded-xl border-2 border-transparent bg-white/[0.04] p-4 hover:bg-white/[0.08] peer-data-[state=checked]:border-purple-500/50 peer-data-[state=checked]:bg-purple-500/5 cursor-pointer transition-all duration-200 h-24"
+                  className="theme-radio-card"
                 >
                   <div className="w-full h-8 border-2 border-white/60 rounded-lg mb-2 bg-transparent" />
                   <span className="text-xs font-semibold text-foreground">Outline</span>
@@ -278,7 +278,7 @@ export function AppearanceEditor() {
                 <RadioGroupItem value="rounded" id="rounded" className="peer sr-only" />
                 <Label
                   htmlFor="rounded"
-                  className="flex flex-col items-center justify-center rounded-xl border-2 border-transparent bg-white/[0.04] p-4 hover:bg-white/[0.08] peer-data-[state=checked]:border-purple-500/50 peer-data-[state=checked]:bg-purple-500/5 cursor-pointer transition-all duration-200 h-24"
+                  className="theme-radio-card"
                 >
                   <div className="w-full h-8 bg-white/80 rounded-full mb-2" />
                   <span className="text-xs font-semibold text-foreground">Rounded</span>
