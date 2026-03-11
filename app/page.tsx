@@ -24,7 +24,7 @@ import {
   Users,
   ChevronDown,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -145,7 +145,12 @@ export default function HomePage() {
 
 function SiteHeader() {
   return (
-    <header className="pointer-events-none fixed inset-x-0 top-6 z-50 flex justify-center">
+    <motion.header
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      className="pointer-events-none fixed inset-x-0 top-6 z-50 flex justify-center"
+    >
       <div className="pointer-events-auto mx-auto flex h-[76px] w-[min(1200px,calc(100%-2rem))] items-center justify-between rounded-[38px] bg-white px-3 shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
         {/* Logo / brand */}
         <div className="flex items-center pl-3">
@@ -190,7 +195,7 @@ function SiteHeader() {
           </Link>
         </div>
       </div>
-    </header>
+    </motion.header>
   );
 }
 function HeroSection() {
@@ -281,7 +286,13 @@ function HeroSection() {
 
 function LogoCloudSection() {
   return (
-    <section className="bg-white py-16 sm:py-24 border-b border-slate-100">
+    <motion.section
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className="bg-white py-16 sm:py-24 border-b border-slate-100"
+    >
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <h2 className="text-center text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl text-[32px]">
           The only link in bio trusted by 50M+ people
@@ -295,7 +306,7 @@ function LogoCloudSection() {
           <div className="text-2xl font-bold text-slate-300 uppercase tracking-wider">GQ</div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }
 
@@ -496,13 +507,32 @@ function FeaturesSection() {
 }
 
 function FeatureCardsGrid() {
+  const container: Variants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15 }
+    }
+  };
+
+  const item: Variants = {
+    hidden: { opacity: 0, y: 30, scale: 0.98 },
+    show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.6, ease: "easeOut" } }
+  };
+
   return (
     <section className="bg-white py-12 md:py-24">
-      <div className="mx-auto max-w-7xl px-6 lg:px-10 space-y-6">
+      <motion.div
+        variants={container}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+        className="mx-auto max-w-7xl px-6 lg:px-10 space-y-6"
+      >
         {/* Top row */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr] gap-6">
           {/* Pink card */}
-          <div className="bg-[#E9C0E9] rounded-3xl p-8 md:p-12 flex flex-col justify-between overflow-hidden relative">
+          <motion.div variants={item} className="bg-[#E9C0E9] rounded-3xl p-8 md:p-12 flex flex-col justify-between overflow-hidden relative">
             <h3 className="text-[#52225e] text-3xl md:text-4xl font-bold leading-tight z-10">
               Share every type of content in a single link.
             </h3>
@@ -510,9 +540,9 @@ function FeatureCardsGrid() {
             <div className="mt-8 relative h-48 w-full z-10 bg-white/40 rounded-2xl border-4 border-[#52225e] flex items-center justify-center -mb-20">
               <span className="text-[#52225e] font-bold">Content Blocks UI</span>
             </div>
-          </div>
+          </motion.div>
           {/* Blue card */}
-          <div className="bg-[#2563eb] rounded-3xl p-8 md:p-12 flex flex-col justify-between overflow-hidden">
+          <motion.div variants={item} className="bg-[#2563eb] rounded-3xl p-8 md:p-12 flex flex-col justify-between overflow-hidden">
             <h3 className="text-white text-3xl md:text-4xl font-bold leading-tight">
               Grow, own and engage your audience.
             </h3>
@@ -520,22 +550,22 @@ function FeatureCardsGrid() {
             <div className="mt-8 relative h-32 w-full bg-white/10 rounded-2xl flex items-center justify-center">
                <span className="text-white font-bold text-sm">Integrations UI (Mailchimp, Spotify, etc.)</span>
             </div>
-          </div>
+          </motion.div>
         </div>
         
         {/* Bottom row */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_1.5fr] gap-6">
           {/* Yellow card */}
-          <div className="bg-[#d3ff4a] rounded-3xl p-8 md:p-12 flex flex-col justify-between overflow-hidden">
+          <motion.div variants={item} className="bg-[#d3ff4a] rounded-3xl p-8 md:p-12 flex flex-col justify-between overflow-hidden">
              <h3 className="text-[#254f1a] text-3xl md:text-4xl font-bold leading-tight">
               Sell products, collect payments and monetise.
             </h3>
             <div className="mt-8 relative h-32 w-full bg-[#254f1a]/10 rounded-2xl flex items-center justify-center">
                <span className="text-[#254f1a] font-bold text-sm">Monetization UI</span>
             </div>
-          </div>
+          </motion.div>
            {/* Gray/White detailed card */}
-          <div className="bg-[#f3f4f6] rounded-3xl p-8 md:p-12 flex flex-col justify-between overflow-hidden">
+          <motion.div variants={item} className="bg-[#f3f4f6] rounded-3xl p-8 md:p-12 flex flex-col justify-between overflow-hidden">
             <h3 className="text-slate-900 text-3xl md:text-4xl font-bold leading-tight text-center">
               The only link in bio trusted by 50M+ people
             </h3>
@@ -546,28 +576,48 @@ function FeatureCardsGrid() {
                 </Button>
               </Link>
             </div>
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
 
 function PressLogosSection() {
+  const container: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut", staggerChildren: 0.1 }
+    }
+  };
+
+  const item: Variants = {
+    hidden: { opacity: 0, scale: 0.9 },
+    show: { opacity: 1, scale: 1, transition: { duration: 0.4 } }
+  };
+
   return (
     <section className="bg-white py-12 md:py-24">
-      <div className="mx-auto max-w-7xl px-6 lg:px-10">
+      <motion.div
+        variants={container}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.5 }}
+        className="mx-auto max-w-7xl px-6 lg:px-10"
+      >
         <h2 className="text-center text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl mb-12">
           As featured in...
         </h2>
         <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
-          <div className="bg-[#f3f4f6] px-8 py-4 rounded-full text-slate-800 font-bold uppercase tracking-wider">TC</div>
-          <div className="bg-[#f3f4f6] px-8 py-4 rounded-full text-slate-800 font-bold uppercase tracking-wider">GQ</div>
-          <div className="bg-[#f3f4f6] px-8 py-4 rounded-full text-slate-800 font-bold uppercase tracking-wider">Forbes</div>
-          <div className="bg-[#f3f4f6] px-8 py-4 rounded-full text-slate-800 font-bold uppercase tracking-wider">Mashable</div>
-          <div className="bg-[#f3f4f6] px-8 py-4 rounded-full text-slate-800 font-bold uppercase tracking-wider">TechCrunch</div>
+          <motion.div variants={item} className="bg-[#f3f4f6] px-8 py-4 rounded-full text-slate-800 font-bold uppercase tracking-wider">TC</motion.div>
+          <motion.div variants={item} className="bg-[#f3f4f6] px-8 py-4 rounded-full text-slate-800 font-bold uppercase tracking-wider">GQ</motion.div>
+          <motion.div variants={item} className="bg-[#f3f4f6] px-8 py-4 rounded-full text-slate-800 font-bold uppercase tracking-wider">Forbes</motion.div>
+          <motion.div variants={item} className="bg-[#f3f4f6] px-8 py-4 rounded-full text-slate-800 font-bold uppercase tracking-wider">Mashable</motion.div>
+          <motion.div variants={item} className="bg-[#f3f4f6] px-8 py-4 rounded-full text-slate-800 font-bold uppercase tracking-wider">TechCrunch</motion.div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
@@ -609,9 +659,13 @@ function SocialProofSection() {
         </div>
       </motion.section>
 
-      <section
+      <motion.section
         id="learn"
         className="bg-[#780016] py-24 md:py-32"
+        initial={{ opacity: 0, y: 32 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
       >
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <h2 className="mb-14 text-center text-[2.5rem] font-extrabold tracking-tight sm:text-[3.5rem] text-[#e9c0e9]">
@@ -643,7 +697,7 @@ function SocialProofSection() {
             ))}
           </div>
         </div>
-      </section>
+      </motion.section>
     </>
   );
 }
@@ -691,7 +745,13 @@ function BottomCTASection() {
 
 function SiteFooter() {
   return (
-    <footer className="bg-white rounded-[2.5rem] mx-6 mb-6 px-10 py-16 shadow-[0_8px_30px_rgb(0,0,0,0.04)] ring-1 ring-slate-100">
+    <motion.footer
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      className="bg-white rounded-[2.5rem] mx-6 mb-6 px-10 py-16 shadow-[0_8px_30px_rgb(0,0,0,0.04)] ring-1 ring-slate-100"
+    >
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-col md:flex-row justify-between mb-16 gap-10">
           <div className="flex items-center gap-4 hidden md:flex">
@@ -756,7 +816,7 @@ function SiteFooter() {
           </div>
         </div>
       </div>
-    </footer>
+    </motion.footer>
   );
 }
 
